@@ -1,2 +1,15 @@
 <h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+
+<%= "Login User ID: #{current_user.id}" %> 
+
+<% if current_user.line_user_id.present? %>
+  <p>LINE連携済み</p>
+  <p>メッセージをLINEに送るには友だち追加してください</p>
+  <%= image_tag 'line_qr.png', alt: 'LINE QRコード', style: 'width: 200px;' %>
+  <%= link_to "LINEで友だち追加", "https://line.me/R/ti/p/#{ENV['LINE_BOT_ID']}", target: "_blank", class: "btn btn-primary" %>
+  <br>
+  <p>友だち追加済みの場合はメッセージを送信できます。</p>
+  <%= button_to 'send Line message', send_line_message_path, method: :post, class: 'btn btn-success' %>
+<% else %>
+  <%= link_to 'LINEアカウントを連携する', line_login_api_login_path, class: 'btn btn-success' %>
+<% end %>
